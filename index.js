@@ -1,7 +1,10 @@
 var app = require('express')();
+var getData = require('./retrieveData.js');
+
+
 
 app.get('/', function (req, res) {
-  res.send('hello!');
+  res.send(getData());
 });
 
 var port = process.env.PORT || 8080;

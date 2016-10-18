@@ -3,11 +3,13 @@ var request = require('request');
 var cheerio = require('cheerio');
 const path = require('path');
 
-var getData = function (url, callback) {
+var resultsArray = [];
+
+var refreshData = function (url) {
   request(url, function (err, res, body) {
     var $ = cheerio.load(body);
     var resultsObject = {};
-    var resultsArray = [];
+    resultsArray = [];
     var text;
     var href;
 
@@ -51,14 +53,20 @@ var getData = function (url, callback) {
         link: fullPath,
       });
     }
-
-    callback(resultsArray);
   });
 };
 
-getData('https://www.youtube.com/', function (results) {
-  console.log(results);
-});
+refreshData('https://www.youtube.com/');
+
+setInterval(function () {
+  refreshData();
+}, 1440000);
+
+var checkData = function () {
+  return resultsArray;
+};
+
+module.exports = checkData;
 
 
 
